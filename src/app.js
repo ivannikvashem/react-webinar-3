@@ -27,7 +27,7 @@ function App({ store }) {
                 onClick={() => store.selectItem(item.code)}
               >
                 <div className="Item-code">{item.code}</div>
-                <div className="Item-title">{item.title}</div>
+                <div className="Item-title">{item.title} {ItemCounter(item.selectCount)}</div>
                 <div className="Item-actions">
                   <button onClick={() => store.deleteItem(item.code)}>Удалить</button>
                 </div>
@@ -39,5 +39,25 @@ function App({ store }) {
     </div>
   );
 }
+
+function ItemCounter(counter) {
+  if (counter !== 0 && counter) {
+    return <span>| Выбрано {counter} {ItemCounterPrefix(counter)}</span>;
+  }
+}
+
+function ItemCounterPrefix(counter) {
+  const lastDigit = counter % 10;
+  const lastTwoDigits = counter % 100;
+
+  if (lastDigit === 1 && lastTwoDigits !== 11) {
+    return <span>раз</span>;
+  }
+  if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
+    return <span>раза</span>;
+  }
+  return <span>раз</span>;
+}
+
 
 export default App;
