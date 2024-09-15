@@ -2,6 +2,25 @@ import React from 'react';
 import { createElement } from './utils.js';
 import './styles.css';
 
+function ItemCounter(counter) {
+  if (counter > 0) {
+    return <span>| Выделяли {counter} {ItemCounterPrefix(counter)}</span>;
+  }
+}
+
+function ItemCounterPrefix(counter) {
+  const lastDigit = counter % 10;
+  const lastTwoDigits = counter % 100;
+
+  if (lastDigit === 1 && lastTwoDigits !== 11) {
+    return <span>раз</span>;
+  }
+  if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
+    return <span>раза</span>;
+  }
+  return <span>раз</span>;
+}
+
 /**
  * Приложение
  * @param store {Store} Состояние приложения
@@ -39,25 +58,5 @@ function App({ store }) {
     </div>
   );
 }
-
-function ItemCounter(counter) {
-  if (counter !== 0 && counter) {
-    return <span>| Выбрано {counter} {ItemCounterPrefix(counter)}</span>;
-  }
-}
-
-function ItemCounterPrefix(counter) {
-  const lastDigit = counter % 10;
-  const lastTwoDigits = counter % 100;
-
-  if (lastDigit === 1 && lastTwoDigits !== 11) {
-    return <span>раз</span>;
-  }
-  if ([2, 3, 4].includes(lastDigit) && ![12, 13, 14].includes(lastTwoDigits)) {
-    return <span>раза</span>;
-  }
-  return <span>раз</span>;
-}
-
 
 export default App;

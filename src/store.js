@@ -5,13 +5,11 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
-    this.nextCode = this.generateItemCode();
+    this.existingCodes = [];
+
     const items = this.state.list;
 
-    if (items.length > 0)
-      items.forEach(item => {
-        item.code = this.nextCode.next().value
-      });
+    items.length > 0 ? items.forEach(item => {item.code ? this.existingCodes.push(item.code) : null; }) : this.existingCodes = [0]
   }
 
   /**
@@ -51,7 +49,7 @@ class Store {
   addItem() {
     this.setState({
       ...this.state,
-      list: [...this.state.list, {code: this.nextCode.next().value, title: 'Новая запись'}],
+      list: [...this.state.list, {code: this.generateItemCode(), title: 'Новая запись'}],
     });
   }
 
@@ -85,12 +83,12 @@ class Store {
     });
   }
 
-  *generateItemCode() {
-    let i = 1;
-    while (true) {
-      yield i++
-    }
+  generateItemCode() {
+    const nextCode = Math.max(...this.existingCodes) + 1;
+    this.existingCodes.push(nextCode);
+    return nextCode;
   }
+
 }
 
 export default Store;
