@@ -1,0 +1,26 @@
+.Modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Modal-content {
+  width: 100vh;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.Modal-bottom {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+  margin-bottom: 40px;
+}
+

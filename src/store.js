@@ -7,6 +7,7 @@ class Store {
   constructor(initState = {}) {
     this.state = initState;
     this.listeners = []; // Слушатели изменений состояния
+    this.state.cartItems = [];
   }
 
   /**
@@ -41,46 +42,35 @@ class Store {
   }
 
   /**
-   * Добавление новой записи
+   * Добавление товара в корзину
+   * @param item {Object}
    */
-  addItem() {
-    this.setState({
-      ...this.state,
-      list: [...this.state.list, { code: generateCode(), title: 'Новая запись' }],
-    });
+  addItemToCart(cartItem) {
+    const objectInstance = this.state.cartItems.find(x => x.code == cartItem.code);
+
+    if (!objectInstance) {
+      this.setState({
+        ...this.state,
+        cartItems: [...this.state.cartItems, {code: cartItem.code, title: cartItem.title, price: cartItem.price, count: 1, totalPrice: cartItem.price}]
+      })
+    } else {
+      this.setState({
+        ...this.state,
+        cartItems: this.state.cartItems.map(x => {
+          if (x.code === cartItem.code) {
+            return {...x, count: x.count + 1, totalPrice: x.totalPrice + cartItem.price};
+          }
+          return x;
+        })
+      })
+    }
   }
 
-  /**
-   * Удаление записи по коду
-   * @param code
-   */
-  deleteItem(code) {
+  removeItem(code) {
+    console.log(code)
     this.setState({
       ...this.state,
-      // Новый список, в котором не будет удаляемой записи
-      list: this.state.list.filter(item => item.code !== code),
-    });
-  }
-
-  /**
-   * Выделение записи по коду
-   * @param code
-   */
-  selectItem(code) {
-    this.setState({
-      ...this.state,
-      list: this.state.list.map(item => {
-        if (item.code === code) {
-          // Смена выделения и подсчёт
-          return {
-            ...item,
-            selected: !item.selected,
-            count: item.selected ? item.count : item.count + 1 || 1,
-          };
-        }
-        // Сброс выделения если выделена
-        return item.selected ? { ...item, selected: false } : item;
-      }),
+      cartItems: this.state.cartItems.filter(item => item.code !== code),
     });
   }
 }

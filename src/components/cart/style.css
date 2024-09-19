@@ -1,5 +1,9 @@
-.Controls {
+.Cart {
   display: flex;
   justify-content: flex-end;
   padding: 20px;
+}
+
+.Cart-State {
+  padding: 0 28px;
 }
