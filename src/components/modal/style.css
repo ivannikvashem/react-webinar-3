@@ -10,7 +10,7 @@
   align-items: center;
 }
 
-.Modal-content {
+.Modal-center {
   width: 100vh;
   background: white;
   border-radius: 12px;
@@ -21,6 +21,6 @@
   display: flex;
   justify-content: flex-end;
   padding: 20px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 

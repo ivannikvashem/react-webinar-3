@@ -1,25 +1,22 @@
 import React, { useState } from 'react';
 import './style.css';
-import List from "../list";
-import Head from "../head";
+import {cn as bem} from "@bem-react/classname";
+import PropTypes from "prop-types";
 
-const Modal = ({ isOpen, onClose, data, bottomData, onAction }) => {
+const Modal = ({ isOpen, children}) => {
   if (!isOpen) return null;
 
-  return (
-    <div className="Modal">
-      <div className="Modal-content">
-        <Head title={'Корзина'} action={onClose} actionText={'Закрыть'}></Head>
-        <List
-          list={data}
-          onItemAction={onAction}
-          itemActionName={'Удалить'}
-        />
+  const cn = bem('Modal');
 
-        <strong className="Modal-bottom">{bottomData}</strong>
-      </div>
+  return (
+    <div className={cn()}>
+      <div className={cn('center')}>{children}</div>
     </div>
   );
+};
+
+Modal.propTypes = {
+  children: PropTypes.node,
 };
 
 export default React.memo(Modal);

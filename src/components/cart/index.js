@@ -1,42 +1,34 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, {shape} from 'prop-types';
 import './style.css';
-import Modal from 'components/modal'
 import { plural } from '../../utils';
-import { totalCartItemsAmount } from '../../utils'
 
 
-function Cart({ cartItems = [], onCartItemRemove = () => {} }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const openModal = () => setIsOpen(true);
-  const closeModal = () => setIsOpen(false);
+function Cart({ cartItems = {totalPrice: 0, totalCount: 0, list: []}, isOpen  }) {
 
+  const openCartModal = () => {
+    isOpen(true);
+  };
 
   return (
     <div className="Cart">
       <div className="Cart-State">
         <span>В корзине: </span>
-        <strong>{cartItems.length ? `${cartItems.length} ${plural(cartItems.length, {
+        <strong>{cartItems.list.length ? `${cartItems.list.length} ${plural(cartItems.list.length, {
           one: 'товар',
           few: 'товара',
-          many: 'товаров'})}`: 'пусто'} </strong> <strong> {totalCartItemsAmount(cartItems) != 0 ? '/ ' + totalCartItemsAmount(cartItems) + ' ₽' : ''}</strong>
+          many: 'товаров'})}`: 'пусто'} </strong> <strong> {cartItems.totalCount ? '/ ' + cartItems.totalPrice.toLocaleString('ru-RU') + ' ₽' : ''}</strong>
       </div>
-      <button onClick={openModal}>&nbsp;Перейти&nbsp;</button>
-      <Modal isOpen={isOpen} onClose={closeModal} data={cartItems} bottomData={'Итого: ' + totalCartItemsAmount(cartItems) + ' ₽'} onAction={onCartItemRemove}/>
+      <button onClick={openCartModal}>&nbsp;Перейти&nbsp;</button>
     </div>
 );
 }
 
-const countCartItems = (cartItems) => {
-  let count = 0;
-  cartItems.forEach(x => {
-    count += x.count;
-  })
-  return count;
-}
-
 Cart.propTypes = {
-  cartItems: PropTypes.array,
+  cartItems: PropTypes.shape({
+    totalPrice: PropTypes.number,
+    totalCount: PropTypes.number,
+    list: PropTypes.array.isRequired,
+  }).isRequired
 };
-
 export default React.memo(Cart);
