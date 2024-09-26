@@ -1,0 +1,31 @@
+.Paginator {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.Paginator-item:not(last-child) {
+  margin: 2px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.Paginator-item-active:not(last-child) {
+  margin: 2px;
+
+  background: #0087E9;
+  color: white;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+}
+
+.Paginator-item:hover {
+  background: #E1E1E1;
+}
